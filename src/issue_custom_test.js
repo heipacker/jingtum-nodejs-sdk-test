@@ -13,10 +13,30 @@ var coins_address = "jG4oHTKopzG1JXjCRd23HdXvXBAAvCSSjr";
 var coins_secret = "sn5bGPAExY7H4xaDn2PJzoUbzpcbz";
 
 JingtumSDK.FinGate.setConfig(coinsCode, coinsSecret);
-JingtumSDK.FinGate.issueCustomTum({
-    currency: coins,
-    amount: "1.00",
-    account: gift_account
-}, function (err, result) {
-    console.log(err, result);
+JingtumSDK.FinGate.setTest(true);
+JingtumSDK.FinGate.queryCustomTum({currency: coins, date: Date.now() / 1000}, function (err, result) {
+    if (err) {
+        throw new Error(err.message);
+    }
+    console.log(result);
+    JingtumSDK.FinGate.issueCustomTum({
+        currency: coins,
+        amount: "1.00",
+        account: gift_account
+    }, function (err, result) {
+        if (err) {
+            throw new Error(err.message);
+        }
+        console.log(result);
+        var order = result['order'];
+        JingtumSDK.FinGate.queryIssue({order: order}, function (err, result) {
+            if (err) {
+                throw new Error(err.message);
+            }
+            if (!result['status']) {
+                throw new Error("查询发行状态失败");
+            }
+            console.log(result);
+        });
+    });
 });
