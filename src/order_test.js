@@ -46,16 +46,16 @@ orderOperation.submit(function (err, result) {
     wallet.setTest(true);
     var orderOperation = new JingtumSDK.OrderOperation(wallet);
     orderOperation.setValidate(true);
-    orderOperation.setOrderType("buy");
+    orderOperation.setOrderType("sell");
     orderOperation.setTakerPays({
         value: "0.01",
-        currency: 'SWT'
+        currency: coins,
+        issuer: coins_issuer
     });
 
     orderOperation.setTakerGets({
         value: "0.01",
-        currency: coins,
-        issuer: coins_issuer
+        currency: 'SWT'
     });
 
     orderOperation.submit(function (err, result) {
@@ -79,6 +79,6 @@ orderOperation.submit(function (err, result) {
                 }
                 console.log(result['transaction']['effects']);
             });
-        })
+        });
     });
 });
