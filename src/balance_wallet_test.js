@@ -25,3 +25,22 @@ wallet1.getBalance(null, function (err, result) {
     console.log(result);
     console.log("--------------coins_address---------------------");
 });
+wallet1.getBalance({'currency': 'SWT'}, function (err, data) {//获得指定货币余额
+    console.log("--------------currency SWT---------------------");
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(data);
+    }
+    console.log("--------------currency SWT---------------------");
+});
+var coins = "8200000005000020170006000000000020000001";
+wallet1.getBalance({'currency': coins}, function (err, data) {//获得指定货币余额
+    console.log("--------------currency coins---------------------");
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(data);
+    }
+    console.log("--------------currency coins---------------------");
+});
