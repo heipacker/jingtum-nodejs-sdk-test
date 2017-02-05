@@ -11,7 +11,9 @@ var Wallet = JingtumSDK.Wallet;
 var wallet = new Wallet(gift_secret, gift_account);
 wallet.setTest(true);
 wallet.getBalance(null, function (err, result) {
+    console.log("--------------wallet---------------------");
     console.log(result);
+    console.log("--------------wallet---------------------");
 });
 
 var coins_address = "jG4oHTKopzG1JXjCRd23HdXvXBAAvCSSjr";
@@ -19,5 +21,7 @@ var coins_secret = "sn5bGPAExY7H4xaDn2PJzoUbzpcbz";
 var wallet1 = new Wallet(coins_secret, coins_address);
 wallet1.setTest(true);
 wallet1.getBalance(null, function (err, result) {
+    console.log("--------------coins_address---------------------");
     console.log(result);
+    console.log("--------------coins_address---------------------");
 });

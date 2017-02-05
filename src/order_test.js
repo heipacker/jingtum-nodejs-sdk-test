@@ -37,11 +37,19 @@ orderOperation.submit(function (err, result) {
     if (err) {
         throw new Error(err.message);
     }
-    if (!result['success']) {
+    if (result['success'] == 'failed') {
+        console.error(result);
         throw new Error("结果异常");
     }
+    console.log("---------------------submitOrders1--------------------");
     console.log(result);
+    console.log("---------------------submitOrders1--------------------");
     var hash1 = result['hash'];
+    coinsWallet.getOrders(hash1, function (err, result) {
+        console.log("---------------------getOrders1--------------------");
+        console.log(result);
+        console.log("---------------------getOrders1--------------------");
+    });
     var wallet = new Wallet(gift_secret, gift_account);
     wallet.setTest(true);
     var orderOperation = new JingtumSDK.OrderOperation(wallet);
@@ -62,23 +70,49 @@ orderOperation.submit(function (err, result) {
         if (err) {
             throw new Error(err.message);
         }
-        if (!result['success']) {
+        if (result['success'] == 'failed') {
             throw new Error("结果异常");
         }
+        console.log("---------------------submitOrders2--------------------");
         console.log(result);
+        console.log("---------------------submitOrders2--------------------");
         var hash2 = result['hash'];
-
+        wallet.getOrders(hash2, function (err, result) {
+            console.log("---------------------getOrders2--------------------");
+            console.log(result);
+            console.log("---------------------getOrders2--------------------");
+        });
         coinsWallet.getTransaction(hash1, function (err, result) {
             if (err) {
                 throw new Error(err.message);
             }
+            console.log("---------------------getTransaction1--------------------");
             console.log(result['transaction']['effects']);
+            console.log("---------------------getTransaction1--------------------");
             wallet.getTransaction(hash2, function (err, result) {
                 if (err) {
                     throw new Error(err.message);
                 }
+                console.log("---------------------getTransaction2--------------------");
                 console.log(result['transaction']['effects']);
+                console.log("---------------------getTransaction2--------------------");
             });
         });
+    });
+});
+
+orderOperation.submit(function (err, result) {
+    if (err) {
+        throw new Error(err.message);
+    }
+    if (result['success'] == 'failed') {
+        console.error(result);
+        throw new Error("结果异常");
+    }
+    var cancelOrderOperation = new JingtumSDK.CancelOrderOperation(coinsWallet, result['sequence']);
+    cancelOrderOperation.submit(function (err, result) {
+        console.log("---------------------cancelOrderOperation------------------");
+        console.log(result);
+        console.log("---------------------cancelOrderOperation------------------");
     });
 });
