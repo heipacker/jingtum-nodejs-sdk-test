@@ -14,7 +14,6 @@ finGate.setTest(true);
 var Wallet = JingtumSDK.Wallet;
 var wallet = finGate.createWallet();
 wallet.setTest(true);
-console.log(wallet);
 finGate.activeWallet(new Wallet(gift_secret, gift_account), wallet);
 
 var coinsWallet = new Wallet(coins_secret, coins_address);
@@ -98,21 +97,5 @@ orderOperation.submit(function (err, result) {
                 console.log("---------------------getTransaction2--------------------");
             });
         });
-    });
-});
-
-orderOperation.submit(function (err, result) {
-    if (err) {
-        throw new Error(err.message);
-    }
-    if (result['success'] == 'failed') {
-        console.error(result);
-        throw new Error("结果异常");
-    }
-    var cancelOrderOperation = new JingtumSDK.CancelOrderOperation(coinsWallet, result['sequence']);
-    cancelOrderOperation.submit(function (err, result) {
-        console.log("---------------------cancelOrderOperation------------------");
-        console.log(result);
-        console.log("---------------------cancelOrderOperation------------------");
     });
 });

@@ -13,16 +13,18 @@ var Wallet = JingtumSDK.Wallet;
 var wallet = finGate.createWallet();
 wallet.setTest(true);
 console.log(wallet);
-finGate.activeWallet(new Wallet(gift_secret, gift_account), wallet);
+var giftWallet = new Wallet(gift_secret, gift_account);
+giftWallet.setTest(true);
+finGate.activeWallet(giftWallet, wallet);
 
 var coinsWallet = new Wallet(coins_secret, coins_address);
 coinsWallet.setTest(true);
-var paymentOperation = new JingtumSDK.PaymentOperation(coinsWallet);
+var paymentOperation = new JingtumSDK.PaymentOperation(giftWallet);
 paymentOperation.setDestAmount({
-    value: "0.01",
+    value: "100",
     currency: 'SWT'
 });
-paymentOperation.setDestination(wallet.address);
+paymentOperation.setDestination(coinsWallet.address);
 paymentOperation.submit(function (err, result) {
     console.log(err, result);
 });
